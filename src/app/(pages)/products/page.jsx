@@ -5,6 +5,11 @@ import { useEffect, useState } from "react";
 
 export default function page() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const handleImageLoad = () => {
+    setLoading(false);
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -24,22 +29,33 @@ export default function page() {
       <h1 className="text-[purple]">PRODUCTS</h1>
       <div className="m-5 flex flex-wrap gap-5">
         {products.map((product) => (
-          <div key={product.id} className="relative w-36 flex flex-col justify-between gap-3">
+          <div
+            key={product.id}
+            className="relative w-36 flex flex-col justify-between gap-3"
+          >
+            {loading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-200 z-10">
+                <span className="loader">Loading...</span>{" "}
+              </div>
+            )}
             <div className="relative w-full h-32">
-            <Image
-              src={product.images[0]}
-              alt={product.title}
-              layout="fill"
-              objectFit="contain" 
-            />
-          </div>
+              <Image
+                src={product.images[0]}
+                alt={product.title}
+                layout="fill"
+                objectFit="contain"
+                onLoadingComplete={handleImageLoad}
+              />
+            </div>
             <h1 className="text-center">{product.title}</h1>
             <p>{product.brand}</p>
             <div className="flex justify-between">
               <p>{product.price}$</p>
               <p>Rating: {product.rating}</p>
             </div>
-            <button className="w-full h-8 bg-[purple] text-white text-3 rounded-[6] hover:opacity-[.5] duration-500">See Details</button>
+            <button className="w-full h-8 bg-[purple] text-white text-3 rounded-[6] hover:opacity-[.5] duration-500">
+              See Details
+            </button>
           </div>
         ))}
       </div>
