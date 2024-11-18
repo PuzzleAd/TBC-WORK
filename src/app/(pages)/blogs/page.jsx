@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 
 export default function page() {
   const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -22,7 +21,10 @@ export default function page() {
   return (
     <div className="py-10 px-20 flex flex-col gap-5">
       {blogs.map((blog) => (
-        <div key={blog.id} className="cursor-pointer bg-[purple] p-4 rounded-md">
+        <div
+          key={blog.id}
+          className="cursor-pointer bg-[purple] p-4 rounded-md"
+        >
           <h1 className="text-white">{blog.title}</h1>
           <p className="mt-3 text-white">{blog.body}</p>
         </div>

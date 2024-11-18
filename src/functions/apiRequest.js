@@ -1,4 +1,3 @@
-// Make sure to define `apiRequest` before exporting it by default
 const apiRequest = async (url, method = "GET", data = null) => {
   try {
     const options = {
