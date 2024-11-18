@@ -23,7 +23,6 @@ export default function page() {
     fetchProducts();
   }, []);
 
-  console.log(products);
   return (
     <div className="py-10 px-20 flex flex-col items-center">
       <h1 className="text-[purple]">PRODUCTS</h1>
