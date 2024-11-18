@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function page() {
+export default function MainPage() {
   return (
     <div className='h-full flex flex-col justify-center items-center py-10 px-24 gap-5 text-[purple]'>
         <h1 className='font-bold'>WELCOME TO OUR PAGE</h1>
