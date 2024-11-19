@@ -17,7 +17,7 @@ export default function page() {
         <h3>Level: 85</h3>
         <h3>Armor: Vorpal Light</h3>
         <h3>Weapon: Mamba Edge Dual Daggers</h3>
-        <h3>Top Dagger on Server</h3>
+        <h3 className='text-[red]'>Top Dagger on Server</h3>
       </div>
     </div>
   )
