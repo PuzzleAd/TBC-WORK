@@ -1,11 +1,14 @@
 "use client";
 import apiRequest from "@/functions/apiRequest";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function page() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pageLoading, setPageLoading] = useState(true);
+  const router = useRouter();
 
   const handleImageLoad = () => {
     setLoading(false);
@@ -16,12 +19,25 @@ export default function page() {
       try {
         const data = await apiRequest("https://dummyjson.com/products");
         setProducts(data.products);
+        setPageLoading(false);
       } catch (error) {
         console.error(`Error: ${error}`);
+        setPageLoading(false);
       }
     };
     fetchProducts();
   }, []);
+
+  const handleClick = (id) => {
+    router.push(`/products/${id}`);
+  };
+
+  if (pageLoading)
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        Loading...
+      </div>
+    );
 
   return (
     <div className="py-10 px-20 flex flex-col items-center">
@@ -31,6 +47,7 @@ export default function page() {
           <div
             key={product.id}
             className="relative w-36 flex flex-col justify-between gap-3"
+            onClick={() => handleClick(product.id)}
           >
             {loading && (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-200 z-10">

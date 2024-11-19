@@ -22,12 +22,17 @@ export default function page() {
   }, [id]);
   console.log(blog);
 
-  if (loading) return <div className="w-full h-full flex items-center justify-center">Loading...</div>;
+  if (loading)
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        Loading...
+      </div>
+    );
   return (
     <div className="w-full h-full flex items-center justify-center">
       <div className="flex flex-col gap-6 items-center p-6 border-2 border-purple-700 rounded-md">
-      <h1>{blog.title}</h1>
-      <p className="w-[400px] text-center">{blog.body}</p>
+        <h1>{blog.title}</h1>
+        <p className="w-[400px] text-center">{blog.body}</p>
       </div>
     </div>
   );

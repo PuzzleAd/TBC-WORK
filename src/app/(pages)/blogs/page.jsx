@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 
 export default function page() {
   const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -12,21 +13,24 @@ export default function page() {
       try {
         const data = await apiRequest("https://dummyjson.com/posts");
         setBlogs(data.posts);
+        setLoading(false);
       } catch (error) {
         console.error(`Error: ${error}`);
+        setLoading(false);
       }
     };
     fetchProducts();
   }, []);
 
-  const idArr = [];
-  blogs.map((blog) => idArr.push(blog.id));
-
-  
-
   const handleClick = (id) => {
     router.push(`/blogs/${id}`);
   };
+  if (loading)
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        Loading...
+      </div>
+    );
 
   return (
     <div className="py-10 px-20 flex flex-col gap-5">
