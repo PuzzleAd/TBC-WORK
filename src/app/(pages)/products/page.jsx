@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 
 export default function page() {
   const [products, setProducts] = useState([]);
+  const [displayedProducts, setDisplayedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pageLoading, setPageLoading] = useState(true);
+  const [inputValue, setInputValue] = useState("");
   const router = useRouter();
 
   const handleImageLoad = () => {
@@ -19,6 +21,7 @@ export default function page() {
       try {
         const data = await apiRequest("https://dummyjson.com/products");
         setProducts(data.products);
+        setDisplayedProducts(data.products);
         setPageLoading(false);
       } catch (error) {
         console.error(`Error: ${error}`);
@@ -32,6 +35,20 @@ export default function page() {
     router.push(`/products/${id}`);
   };
 
+  const handleInputValue = (e) => {
+    const value = e.target.value.toLowerCase();
+    setInputValue(value);
+    if (value.trim() === "") {
+      setDisplayedProducts(products);
+    } else {
+      const filtered = products.filter((product) =>
+        product.title.toLowerCase().includes(value)
+      );
+      setDisplayedProducts(filtered);
+    }
+    console.log(displayedProducts);
+  };
+
   if (pageLoading)
     return (
       <div className="w-full h-full flex items-center justify-center">
@@ -42,8 +59,16 @@ export default function page() {
   return (
     <div className="py-10 px-20 flex flex-col items-center">
       <h1 className="text-[purple]">PRODUCTS</h1>
+      <form action="submit" onSubmit={(e) => e.preventDefault()}>
+        <input
+          type="text"
+          placeholder="Search"
+          onChange={(e) => handleInputValue(e)}
+          className="mt-4 p-2 w-44 h-8 border border-purple-500 rounded-[6px] outline-none"
+        />
+      </form>
       <div className="m-5 flex flex-wrap gap-5">
-        {products.map((product) => (
+        {displayedProducts.map((product) => (
           <div
             key={product.id}
             className="relative w-36 flex flex-col justify-between gap-3"

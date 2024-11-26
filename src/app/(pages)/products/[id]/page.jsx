@@ -28,8 +28,6 @@ export default function page() {
     fetchProduct();
   }, [id]);
 
-  console.log(product);
-
   if (loading)
     return (
       <div className="w-full h-full flex items-center justify-center">
