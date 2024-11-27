@@ -9,6 +9,7 @@ export default function page() {
   const [displayedProducts, setDisplayedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pageLoading, setPageLoading] = useState(true);
+  const [toggle, setToggle] = useState(false);
   const router = useRouter();
 
   const handleImageLoad = () => {
@@ -44,7 +45,12 @@ export default function page() {
       );
       setDisplayedProducts(filtered);
     }
-    console.log(displayedProducts);
+  };
+
+  const sortText = "Show Menu";
+
+  const handleToggle = () => {
+    setToggle(!toggle);
   };
 
   if (pageLoading)
@@ -57,14 +63,36 @@ export default function page() {
   return (
     <div className="py-10 px-20 flex flex-col items-center">
       <h1 className="text-[purple]">PRODUCTS</h1>
-      <form action="submit" onSubmit={(e) => e.preventDefault()}>
-        <input
-          type="text"
-          placeholder="Search"
-          onChange={(e) => handleInputValue(e)}
-          className="mt-4 p-2 w-44 h-8 border border-purple-500 rounded-[6px] outline-none"
-        />
-      </form>
+      <div className="relative mt-4  w-full flex gap-12">
+        <form action="submit" onSubmit={(e) => e.preventDefault()}>
+          <input
+            type="text"
+            placeholder="Search"
+            onChange={(e) => handleInputValue(e)}
+            className="p-2 w-44 h-8 border border-purple-500 rounded-[6px] outline-none"
+          />
+        </form>
+        <div
+          onMouseEnter={handleToggle}
+          onMouseLeave={handleToggle}
+          className={`absolute z-50 right-0 flex flex-col w-36 border text-black border-purple-500 rounded-[6px] hover:bg-purple-500 transition-.5 hover:text-white`}
+        >
+          <button className="pt-1 ">{sortText}</button>
+          {toggle && (
+            <div
+              onClick={() => setToggle(false)}
+              className="pl-2 top-7 w-full bg-transparent"
+            >
+              <p className="cursor-pointer my-3 font-bold text-white">
+                Sort by Increase
+              </p>
+              <p className="cursor-pointer my-3 font-bold text-white">
+                Sort by Deacrese
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
       <div className="m-5 flex flex-wrap gap-5">
         {displayedProducts.map((product) => (
           <div
