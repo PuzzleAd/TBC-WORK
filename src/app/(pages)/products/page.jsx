@@ -9,7 +9,6 @@ export default function page() {
   const [displayedProducts, setDisplayedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pageLoading, setPageLoading] = useState(true);
-  const [inputValue, setInputValue] = useState("");
   const router = useRouter();
 
   const handleImageLoad = () => {
@@ -37,7 +36,6 @@ export default function page() {
 
   const handleInputValue = (e) => {
     const value = e.target.value.toLowerCase();
-    setInputValue(value);
     if (value.trim() === "") {
       setDisplayedProducts(products);
     } else {

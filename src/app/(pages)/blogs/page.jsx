@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 
 export default function page() {
   const [blogs, setBlogs] = useState([]);
+  const [diplayedBlogs, setDisplayedBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -13,6 +14,7 @@ export default function page() {
       try {
         const data = await apiRequest("https://dummyjson.com/posts");
         setBlogs(data.posts);
+        setDisplayedBlogs(data.posts);
         setLoading(false);
       } catch (error) {
         console.error(`Error: ${error}`);
@@ -21,6 +23,18 @@ export default function page() {
     };
     fetchProducts();
   }, []);
+
+  const handleInputValue = (e) => {
+    const value = e.target.value;
+    if (value.trim() === "") {
+      setDisplayedBlogs(blogs);
+    } else {
+      const filtered = blogs.filter((blog) =>
+        blog.title.toLowerCase().includes(value)
+      );
+      setDisplayedBlogs(filtered);
+    }
+  };
 
   const handleClick = (id) => {
     router.push(`/blogs/${id}`);
@@ -34,7 +48,15 @@ export default function page() {
 
   return (
     <div className="py-10 px-20 flex flex-col gap-5">
-      {blogs.map((blog) => (
+      <form action="submit" onSubmit={(e) => e.preventDefault()}>
+        <input
+          type="text"
+          placeholder="Search"
+          onChange={(e) => handleInputValue(e)}
+          className="p-2 w-44 h-8 border border-purple-500 outline-none rounded-[6px]"
+        />
+      </form>
+      {diplayedBlogs.map((blog) => (
         <div
           key={blog.id}
           className="cursor-pointer bg-[purple] p-4 rounded-md"
